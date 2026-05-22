@@ -4,7 +4,7 @@ import { Template } from '../../models/template.model';
 
 const createSchema = z.object({
   name: z.string().min(1),
-  category: z.enum(['header', 'footer', 'page', 'component']),
+  category: z.enum(['header', 'footer', 'page', 'component', 'document']),
   canvasJSON: z.string(),
   thumbnail: z.string().optional(),
   width: z.number().optional(),

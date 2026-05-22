@@ -15,13 +15,26 @@ export interface ICollaborator {
   role: 'viewer' | 'editor' | 'commenter';
 }
 
+export interface IVariable {
+  key: string;
+  label?: string;
+  type: 'text' | 'table';
+  required: boolean;
+  tableColumns?: string[];
+  tableHeaderColor?: string;
+  tableRowColor?: string;
+  tableFontSize?: number;
+  tableShowBorder?: boolean;
+  tableBorderRadius?: number;
+}
+
 export interface IProject extends Document {
   name: string;
   canvasJSON: string;
   thumbnail?: string;
   userId: Types.ObjectId;
   folderId?: Types.ObjectId;
-  variables?: { key: string; value?: string }[];
+  variables?: IVariable[];
   collaborators: ICollaborator[];
   accessRequests: { userId: Types.ObjectId; status: 'pending' | 'denied' }[];
   comments: IComment[];
@@ -34,7 +47,21 @@ const projectSchema = new Schema<IProject>({
   thumbnail: { type: String },
   userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   folderId: { type: Schema.Types.ObjectId, ref: 'Folder' },
-  variables: { type: [{ key: String, value: String }], default: [] },
+  variables: { 
+    type: [{ 
+      key: { type: String, required: true },
+      label: String,
+      type: { type: String, enum: ['text', 'table'], default: 'text' },
+      required: { type: Boolean, default: false },
+      tableColumns: [String],
+      tableHeaderColor: String,
+      tableRowColor: String,
+      tableFontSize: Number,
+      tableShowBorder: { type: Boolean, default: true },
+      tableBorderRadius: { type: Number, default: 0 }
+    }], 
+    default: [] 
+  },
   collaborators: {
     type: [{
       userId: { type: Schema.Types.ObjectId, ref: 'User' },

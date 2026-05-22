@@ -19,6 +19,12 @@ export const updateProjectSchema = z.object({
   thumbnail: z.string().optional(),
   variables: z.array(z.object({
     key: z.string(),
-    value: z.string().optional()
+    label: z.string().optional(),
+    type: z.enum(['text', 'table']),
+    required: z.boolean(),
+    tableColumns: z.array(z.string()).optional(),
+    tableHeaderColor: z.string().optional(),
+    tableRowColor: z.string().optional(),
+    tableFontSize: z.number().optional()
   })).optional(),
 });
