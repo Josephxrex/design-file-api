@@ -1,4 +1,6 @@
 import mongoose, { Schema, Document, Types } from 'mongoose';
+import { ComponentInstance } from '../domain/component-instance';
+import { PageFormat } from '../domain/page-format';
 
 export interface IComment {
   id: string;
@@ -38,6 +40,8 @@ export interface IProject extends Document {
   collaborators: ICollaborator[];
   accessRequests: { userId: Types.ObjectId; status: 'pending' | 'denied' }[];
   comments: IComment[];
+  pageFormat?: PageFormat;
+  componentInstances?: ComponentInstance[];
   createdAt: Date;
 }
 
@@ -85,6 +89,18 @@ const projectSchema = new Schema<IProject>({
       x: Number,
       y: Number,
       createdAt: { type: Date, default: Date.now }
+    }],
+    default: []
+  },
+  pageFormat: { type: Schema.Types.Mixed },
+  componentInstances: {
+    type: [{
+      id: String,
+      componentDefinitionId: String,
+      mode: { type: String, enum: ['linked', 'detached'], default: 'linked' },
+      placement: { type: Schema.Types.Mixed, required: true },
+      zIndex: Number,
+      detachedElements: { type: [Schema.Types.Mixed] }
     }],
     default: []
   },

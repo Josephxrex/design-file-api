@@ -16,6 +16,7 @@ import projectsRoutes from './routes/projects';
 import uploadRoutes from './routes/upload';
 import folderRoutes from './routes/folders';
 import templatesRoutes from './routes/templates';
+import componentsRoutes from './routes/components';
 import renderRoutes from './routes/render';
 
 const server = Fastify({
@@ -59,6 +60,7 @@ async function bootstrap() {
     await server.register(folderRoutes, { prefix: '/api/v1' });
     await server.register(uploadRoutes, { prefix: '/api/v1' });
     await server.register(templatesRoutes, { prefix: '/api/v1/templates' });
+    await server.register(componentsRoutes, { prefix: '/api/v1/components' });
     await server.register(renderRoutes, { prefix: '/api/v1/projects' });
     console.log('✅ Rutas listas.');
 
